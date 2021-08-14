@@ -1,34 +1,46 @@
-board = [["5","3",".",".","7",".",".",".","."],
-         ["6",".",".","1","9","5",".",".","."],
-         [".","9","8",".",".",".",".","6","."],
-         ["8",".",".",".","6",".",".",".","3"],
-         ["4",".",".","8",".","3",".",".","1"],
-         ["7",".",".",".","2",".",".",".","6"],
-         [".","6",".",".",".",".","2","8","."],
-         [".",".",".","4","1","9",".",".","5"],
-         [".",".",".",".","8",".",".","7","9"]]
-
+board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
 newboard = []
 
-k=0
-for i in board:
-    
-    temp = []
-    for j in range(9):
-        if i[j] == ".":
-            x = 0
+for x in board:
+    newlist = []
+    for i in range(9):
+        if x[i] == ".":
+            val = 0
         else:
-            x = int(i[j])
-        temp.append(x)
-    newboard.append(temp)
-    k = k+1
+            val = int(x[i])
+        newlist.append(val)
+    newboard.append(newlist)
 print(newboard)
-rows = [[0,0,0,0,0,0,0,0,0,0] for i in range(9)]
-columns = [[0,0,0,0,0,0,0,0,0,0] for i in range(9)]
-boxes = [[0,0,0,0,0,0,0,0,0,0] for i in range(9)]
+
+rows =  [[0 for i in range(9)] for j in range(9)]
+columns = [[0 for i in range(9)] for j in range(9)]
+squares = [[0 for i in range(9)] for j in range(9)]
 
 for i in range(9):
     for j in range(9):
-        #print(newboard[i][i])
-        rows[i][newboard[i][j]] = 1
-print(rows)
+        if newboard[i][j] != 0:
+            rows[i][newboard[i][j] - 1] = 1
+
+for i in range(9):
+    for j in range(9):
+        if newboard[i][j] != 0:
+            columns[j][newboard[i][j] - 1] = 1
+
+for i in range(9):
+    for j in range(9):
+        for k in range(9):
+            if newboard[j][k] != 0:
+                squares[i][newboard[j][k] - 1] = 1
+
+            
+print("rows = ", rows)
+print("columns", columns)
+print("squares", squares)
+
+iter1 = [[0 for i in range(9)] for j in range(9)]
+
+
+for i in range(9):
+    for j in range(9):
+        for k in range(9):
+            p = k
