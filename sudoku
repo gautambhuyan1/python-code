@@ -21,6 +21,17 @@ for x in board:
             val = int(x[i])
         newlist.append(val)
     newboard.append(newlist)
+
+newboard = [[0, 3, 0, 3, 0, 0, 0, 0, 8],
+            [4, 0, 0, 1, 5, 0, 6, 0, 9],
+            [8, 0, 9, 0, 0, 3, 0, 5, 0],
+            [0, 0, 0, 0, 3, 7, 9, 2, 0],
+            [7, 5, 0, 0, 0, 9, 0, 0, 0],
+            [2, 9, 0, 4, 1, 0, 0, 8, 5],
+            [5, 8, 0, 0, 4, 0, 1, 7, 0],
+            [0, 0, 7, 3, 0, 0, 0, 6, 4],
+            [3, 0, 1, 6, 0, 5, 0, 0, 0]]
+
 print(newboard)
 
 rows =  [[0 for i in range(9)] for j in range(9)]
@@ -50,17 +61,19 @@ def find(i, j):
     for k in range(9):
         if rows[i][k] == 0 and columns[j][k] == 0 and squares[box[i][j]][k] == 0:
             possible[k] = 1
-    #print("possible = ", possible)
+    print("possible before = ", i, j, possible)
     
     for k in range(9):
         if possible[k] == 1:
             (a, b) = xclude[i]
             if rows[a][k] == 1 and rows[b][k] == 1:
+                nothing = 1
                 #print("found", k)
             else:
                 possible[k] = 0
             (a, b) = xclude[j]
             if columns[a][k] == 1 and columns[b][k] == 1:
+                nothing = 1
                 #print("found", k)
             else:
                 possible[k] = 0
@@ -69,7 +82,7 @@ def find(i, j):
             if possible[p] == 1:
                 x = p
             
-    #print("possible after = ", possible)
+    print("possible after = x", possible, x)
     return x
 
    
@@ -78,6 +91,9 @@ def find(i, j):
 print("before", newboard)
 while count > 0:
     print("count = ", count)
+    input("###### Enter:")
+    for z in newboard:
+        print(z)
     for i in range(9):
         for j in range(9):
             if count == 0: 
@@ -93,4 +109,3 @@ while count > 0:
                     count = count - 1
                     
 print(newboard)
-    
