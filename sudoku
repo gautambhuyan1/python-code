@@ -1,5 +1,11 @@
+# Input board - change the board here:
+
 board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
+
 newboard = []
+input_cmd = 1
+
+# Data structure to identify the 9 boxes
 
 box = [[0, 0, 0, 1, 1, 1, 2, 2, 2],
        [0, 0, 0, 1, 1, 1, 2, 2, 2],
@@ -12,6 +18,7 @@ box = [[0, 0, 0, 1, 1, 1, 2, 2, 2],
        [6, 6, 6, 7, 7, 7, 8, 8, 8]]
 
 
+# Convert the board into numbers
 for x in board:
     newlist = []
     for i in range(9):
@@ -22,23 +29,17 @@ for x in board:
         newlist.append(val)
     newboard.append(newlist)
 
-newboard = [[0, 3, 0, 3, 0, 0, 0, 0, 8],
-            [4, 0, 0, 1, 5, 0, 6, 0, 9],
-            [8, 0, 9, 0, 0, 3, 0, 5, 0],
-            [0, 0, 0, 0, 3, 7, 9, 2, 0],
-            [7, 5, 0, 0, 0, 9, 0, 0, 0],
-            [2, 9, 0, 4, 1, 0, 0, 8, 5],
-            [5, 8, 0, 0, 4, 0, 1, 7, 0],
-            [0, 0, 7, 3, 0, 0, 0, 6, 4],
-            [3, 0, 1, 6, 0, 5, 0, 0, 0]]
 
-print(newboard)
+for p in newboard:
+    print(p)
 
 rows =  [[0 for i in range(9)] for j in range(9)]
 columns = [[0 for i in range(9)] for j in range(9)]
 squares = [[0 for i in range(9)] for j in range(9)]
 
 count = 0
+
+# Fill up the rows, columns and squares with the existing numbers
 
 for i in range(9):
     for j in range(9):
@@ -49,63 +50,116 @@ for i in range(9):
         else:
             count = count + 1
             
-print("rows = ", rows)
-print("columns", columns)
-print("squares", squares)
+#print("rows = ", rows)
+#print("columns", columns)
+#print("squares", squares)
 
-xclude = [(1, 2), (0, 2), (0, 1), (4, 5), (3, 5), (3, 4), (6, 7), (5, 7), (5, 6)]
+# Data structure to identify the rows and columns in the same box other than the current one
+
+xclude = [(1, 2), (0, 2), (0, 1), (4, 5), (3, 5), (3, 4), (7, 8), (6, 8), (6, 7)]
+
+# Function to possibly find a number for a certain position
 
 def find(i, j):
-    x = 0
+    x = -1
     possible = [0 for i in range(9)]
+    numbers = []
+    
+    # Find possible list of nummers
     for k in range(9):
         if rows[i][k] == 0 and columns[j][k] == 0 and squares[box[i][j]][k] == 0:
             possible[k] = 1
-    print("possible before = ", i, j, possible)
+            numbers.append(k+1)
+    if input_cmd == 2:
+        print("possible before = ", i, j, numbers)
+    
+    # If there is only one possibility, we already found the number
+    if sum(possible) == 1:
+        for p in range(9):
+            if possible[p] == 1:
+                x = p
+                return x
+    
+    # Eliminate the ones not possible
     
     for k in range(9):
         if possible[k] == 1:
             (a, b) = xclude[i]
+            if input_cmd == 2:
+                    print("a b rows", a, b, rows[a], rows[b])
             if rows[a][k] == 1 and rows[b][k] == 1:
                 nothing = 1
-                #print("found", k)
+                (c, d) = xclude[j]
+                if newboard[i][c] != 0 and newboard[i][d] != 0:
+                    x = k
+                    return x
+                if input_cmd == 2:
+                    print("found a b k", a, b, k)
             else:
                 possible[k] = 0
             (a, b) = xclude[j]
+            if input_cmd == 2:
+                    print("a b columns", a, b, columns[a], columns[b])
             if columns[a][k] == 1 and columns[b][k] == 1:
                 nothing = 1
-                #print("found", k)
+                (c, d) = xclude[i]
+                if newboard[c][j] != 0 and newboard[d][j] != 0:
+                    x = k
+                    return x
+                if input_cmd == 2:
+                    print("found a b k", a, b, k)
+
             else:
                 possible[k] = 0
+    if input_cmd == 2:
+        print("final possible list", possible)
+    
+    # If there is only one left, we have found the number
+    
     if sum(possible) == 1:
         for p in range(9):
             if possible[p] == 1:
                 x = p
             
-    print("possible after = x", possible, x)
+    if input_cmd == 2:
+        print("possible after = x", possible, x)
     return x
 
    
 #find(1, 1)
 
-print("before", newboard)
+#print("before", newboard)
+# Try to find all possible numbers in a loop and exit when we find them all
+
 while count > 0:
-    print("count = ", count)
-    input("###### Enter:")
-    for z in newboard:
-        print(z)
+    #print("count = ", count)
+    #input_cmd = int(input("###### Enter:"))
+    if input_cmd == 0:
+        break
+
     for i in range(9):
         for j in range(9):
             if count == 0: 
                 break
             if newboard[i][j] == 0:
                 x = find(i, j)
-                if x != 0:
-                    print("i, j, x", i, j, x + 1)
+                if x != -1:
+                    #print("i, j, x", i, j, x + 1)
+                    #print("rows before: ", rows)
+                    #print("columns before: ", columns)
+                    #print("squares before: ", squares)
                     newboard[i][j] = x + 1
                     rows[i][x] = 1
                     columns[j][x] = 1
                     squares[box[i][j]][x] = 1
                     count = count - 1
+                    #print("rows after: ", rows)
+                    #print("columns after: ", columns)
+                    #print("squares after: ", squares)
+
                     
-print(newboard)
+print("Final board#######")                    
+for p in newboard:
+    print(p)
+
+    
