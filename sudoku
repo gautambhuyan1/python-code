@@ -1,6 +1,17 @@
 board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
 newboard = []
 
+box = [[0, 0, 0, 1, 1, 1, 2, 2, 2],
+       [0, 0, 0, 1, 1, 1, 2, 2, 2],
+       [0, 0, 0, 1, 1, 1, 2, 2, 2],
+       [3, 3, 3, 4, 4, 4, 5, 5, 5],
+       [3, 3, 3, 4, 4, 4, 5, 5, 5],
+       [3, 3, 3, 4, 4, 4, 5, 5, 5],
+       [6, 6, 6, 7, 7, 7, 8, 8, 8],
+       [6, 6, 6, 7, 7, 7, 8, 8, 8],
+       [6, 6, 6, 7, 7, 7, 8, 8, 8]]
+
+
 for x in board:
     newlist = []
     for i in range(9):
@@ -16,31 +27,70 @@ rows =  [[0 for i in range(9)] for j in range(9)]
 columns = [[0 for i in range(9)] for j in range(9)]
 squares = [[0 for i in range(9)] for j in range(9)]
 
+count = 0
+
 for i in range(9):
     for j in range(9):
         if newboard[i][j] != 0:
             rows[i][newboard[i][j] - 1] = 1
-
-for i in range(9):
-    for j in range(9):
-        if newboard[i][j] != 0:
             columns[j][newboard[i][j] - 1] = 1
-
-for i in range(9):
-    for j in range(9):
-        for k in range(9):
-            if newboard[j][k] != 0:
-                squares[i][newboard[j][k] - 1] = 1
-
+            squares[box[i][j]][newboard[i][j] - 1] = 1
+        else:
+            count = count + 1
             
 print("rows = ", rows)
 print("columns", columns)
 print("squares", squares)
 
-iter1 = [[0 for i in range(9)] for j in range(9)]
+xclude = [(1, 2), (0, 2), (0, 1), (4, 5), (3, 5), (3, 4), (6, 7), (5, 7), (5, 6)]
 
+def find(i, j):
+    x = 0
+    possible = [0 for i in range(9)]
+    for k in range(9):
+        if rows[i][k] == 0 and columns[j][k] == 0 and squares[box[i][j]][k] == 0:
+            possible[k] = 1
+    #print("possible = ", possible)
+    
+    for k in range(9):
+        if possible[k] == 1:
+            (a, b) = xclude[i]
+            if rows[a][k] == 1 and rows[b][k] == 1:
+                #print("found", k)
+            else:
+                possible[k] = 0
+            (a, b) = xclude[j]
+            if columns[a][k] == 1 and columns[b][k] == 1:
+                #print("found", k)
+            else:
+                possible[k] = 0
+    if sum(possible) == 1:
+        for p in range(9):
+            if possible[p] == 1:
+                x = p
+            
+    #print("possible after = ", possible)
+    return x
 
-for i in range(9):
-    for j in range(9):
-        for k in range(9):
-            p = k
+   
+#find(1, 1)
+
+print("before", newboard)
+while count > 0:
+    print("count = ", count)
+    for i in range(9):
+        for j in range(9):
+            if count == 0: 
+                break
+            if newboard[i][j] == 0:
+                x = find(i, j)
+                if x != 0:
+                    print("i, j, x", i, j, x + 1)
+                    newboard[i][j] = x + 1
+                    rows[i][x] = 1
+                    columns[j][x] = 1
+                    squares[box[i][j]][x] = 1
+                    count = count - 1
+                    
+print(newboard)
+    
