@@ -1,5 +1,5 @@
 mystr = "abefdgcdanckjdsasdf"
-mypat = "abe*d++df"
+mypat = "*abe*j*f"
 
 mystrlen = len(mystr)
 mypatlen = len(mypat)
@@ -10,6 +10,10 @@ def findmatch(strstart, patstart, lev):
     i = strstart
     j = patstart
     counter = 0
+    
+    if (lev > 20):
+        print("Too many recursions")
+        return 1
     
     while (i < mystrlen) and (j < mypatlen):
         counter = counter + 1
@@ -55,3 +59,5 @@ def findmatch(strstart, patstart, lev):
             
 print(mystrlen, mypatlen)
 findmatch(0, 0, 0)       
+        
+        
