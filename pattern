@@ -12,43 +12,43 @@ def findmatch(strstart, patstart, lev):
     counter = 0
     
     if (lev > 20):
-        print("Too many recursions")
+        #print("Too many recursions")
         return 1
     
     while (i < mystrlen) and (j < mypatlen):
         counter = counter + 1
         if (counter > 20):
             break
-        print("Begin character Level ### ", lev, i, j, mystr[i], mypat[j])
+        #print("Begin character Level ### ", lev, i, j, mystr[i], mypat[j])
         
         if (mystr[i] == mypat[j]):
-            print("exact match ", i, j)
+            #print("exact match ", i, j)
             i = i + 1
             j = j + 1
         elif (mypat[j] == '+') and (i < (mystrlen)):
-            print("pattern is +")
+            #print("pattern is +")
             i = i + 1
             j = j + 1
         elif (mypat[j] == '*'):
-            print("pattern is *")
+            #print("pattern is *")
             while (mypat[j + 1] == '*') or (mypat[j + 1] == '+'):
                 j = j + 1
                                         
             while (mystr[i] != mypat[j + 1]) and ((i < mystrlen) and (j < mypatlen)):
                 i = i + 1
                 if (i + 1) > mystrlen:
-                    print("Not match")
+                    #print("Not match")
                     return 1
-                print(" * character ", i, j, mystr[i], mypat[j+1])
+                #print(" * character ", i, j, mystr[i], mypat[j+1])
             x = findmatch(i, j + 1, lev + 1)
             if (x == 0) :
-                print("Match")
+                #print("Match")
                 j = j + 1
             else:
                 i = i + 1
                    
         else:
-            print("No match")
+            #print("No match")
             return 1
             break
             
