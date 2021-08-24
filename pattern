@@ -1,5 +1,5 @@
-mystr = "abefdgcdanckjdsasdf"
-mypat = "*abe*j*f"
+mystr = "abefdgcdancfkjdsasdf"
+mypat = "*abe*a*+*f*f"
 
 mystrlen = len(mystr)
 mypatlen = len(mypat)
@@ -31,6 +31,9 @@ def findmatch(strstart, patstart, lev):
             j = j + 1
         elif (mypat[j] == '*'):
             print("pattern is *")
+            while (mypat[j + 1] == '*') or (mypat[j + 1] == '+'):
+                j = j + 1
+                                        
             while (mystr[i] != mypat[j + 1]) and ((i < mystrlen) and (j < mypatlen)):
                 i = i + 1
                 if (i + 1) > mystrlen:
