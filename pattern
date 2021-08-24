@@ -1,14 +1,20 @@
-mystr = "abcd"
-mypat = "*cd"
+mystr = "abefgcd"
+mypat = "abe+d"
 
 mystrlen = len(mystr)
 mypatlen = len(mypat)
 
+
+
 def findmatch(strstart, patstart):
     i = strstart
     j = patstart
+    counter = 0
     
     while (i < mystrlen) and (j < mypatlen):
+        counter = counter + 1
+        if (counter > 20):
+            break
         print("Begin character ", i, j, mystr[i], mypat[j])
         
         if (mystr[i] == mypat[j]):
@@ -22,8 +28,10 @@ def findmatch(strstart, patstart):
         elif (mypat[j] == '*'):
             print("pattern is *")
             while (mystr[i] != mypat[j + 1]) and ((i < mystrlen) and (j < mypatlen)):
-                   print(" * character ", i, j, mystr[i], mypat[j])
-                   i = i + 1
+                i = i + 1
+                print(" * character ", i, j, mystr[i], mypat[j+1])
+            j = j + 1
+                   
         else:
             print("No match")
             break
@@ -34,7 +42,7 @@ def findmatch(strstart, patstart):
         print("No match")
         
             
-        
+print(mystrlen, mypatlen)
 findmatch(0, 0)       
         
         
