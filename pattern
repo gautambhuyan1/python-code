@@ -1,12 +1,12 @@
-mystr = "abefgcd"
-mypat = "abe+d"
+mystr = "abefdgcdanckjdsasdf"
+mypat = "abe*d++df"
 
 mystrlen = len(mystr)
 mypatlen = len(mypat)
 
 
 
-def findmatch(strstart, patstart):
+def findmatch(strstart, patstart, lev):
     i = strstart
     j = patstart
     counter = 0
@@ -15,7 +15,7 @@ def findmatch(strstart, patstart):
         counter = counter + 1
         if (counter > 20):
             break
-        print("Begin character ", i, j, mystr[i], mypat[j])
+        print("Begin character Level ### ", lev, i, j, mystr[i], mypat[j])
         
         if (mystr[i] == mypat[j]):
             print("exact match ", i, j)
@@ -29,20 +29,29 @@ def findmatch(strstart, patstart):
             print("pattern is *")
             while (mystr[i] != mypat[j + 1]) and ((i < mystrlen) and (j < mypatlen)):
                 i = i + 1
+                if (i + 1) > mystrlen:
+                    print("Not match")
+                    return 1
                 print(" * character ", i, j, mystr[i], mypat[j+1])
-            j = j + 1
+            x = findmatch(i, j + 1, lev + 1)
+            if (x == 0) :
+                print("Match")
+                j = j + 1
+            else:
+                i = i + 1
                    
         else:
             print("No match")
+            return 1
             break
             
     if (i == mystrlen) and (j == mypatlen):
         print("Matched")
+        return 0
     else:
         print("No match")
+        return 1
         
             
 print(mystrlen, mypatlen)
-findmatch(0, 0)       
-        
-        
+findmatch(0, 0, 0)       
