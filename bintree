@@ -1,0 +1,78 @@
+class Tree:
+    count = 0
+    def __init__(self, val = None):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.parent = self
+        
+        
+    def traverse(self):
+        print("my value: ", self.val, " my parent value: ", self.parent.val)
+        Tree.count = Tree.count + 1
+        if Tree.count > 20:
+            print("Too many")
+            return
+        if self.left != None:
+            #print("moving left")
+            self.left.traverse()
+        if self.right != None:
+            #print("moving right")
+            self.right.traverse()
+            
+    def insert(self, x):
+        tmp = self
+        print("inserting ", x)
+        while tmp:
+            
+            if x < tmp.val:
+                if tmp.left:
+                    #print("move left", x, tmp.val)
+                    tmp = tmp.left
+                else:
+                    tmp.left = Tree(x)
+                    tmp.left.parent = tmp
+                    #print("left new node added")
+                    return
+            elif x > tmp.val:
+                if tmp.right:
+                    tmp = tmp.right
+                    #print("move right", x, tmp.val)
+                else:
+                    tmp.right = Tree(x)
+                    tmp.right.parent = tmp
+                    #print("right new node added")
+                    return
+                
+    def search(self, val):
+        tmp = self
+        
+        while tmp:
+            if val == tmp.val:
+                print("found")
+                return
+            elif (val < tmp.val):
+                if tmp.left:
+                    tmp = tmp.left
+                else:
+                    print("not in list")
+                    return
+            elif (val > tmp.val):
+                if tmp.right:
+                    tmp = tmp.right
+                else:
+                    print("not in list either")
+                    return
+        
+            
+
+tree = Tree(0)
+tree.insert(10)
+tree.insert(20)
+tree.insert(30)
+tree.insert(5)
+tree.insert(8)
+tree.insert(15)
+tree.traverse()
+
+tree.search(15)
