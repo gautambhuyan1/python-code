@@ -1,5 +1,5 @@
-mystr = "PAASKABCDAKASAPASPASKA"
-mysub = 'KAXP'
+mystr = "PAXASKABCDAKAASAPASPAMSKA"
+mysub = 'KAP'
 
 mybool = [0 for i in range(0,len(mysub))]
 
@@ -40,13 +40,11 @@ while i < len(mystr):
     my_window = ispresent(mystr, mysub, i)
     
     #print("In loop", i, my_window, smallest_window)
-    if my_window[0] == my_window[1]:
+    if my_window[1] == 0:
         #print("Breaking")
         break
     else:
         i = my_window[0] + 1
-        if my_window[1] == 0:
-            break
         window_size = my_window[1] - my_window[0]
         if (smallest_window_size > window_size):
             smallest_window_size = window_size
